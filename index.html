@@ -1,611 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Saad Akram — ICS Student & Video Editor" />
-  <title>Saad Akram</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Saad Akram</title>
 
-    :root {
-      --bg:        #0D0D0D;
-      --surface:   #1A1A2E;
-      --card:      #1E1E2E;
-      --accent:    #6C63FF;
-      --accent2:   #a599ff;
-      --text:      #F0EDE8;
-      --muted:     #8888a0;
-      --border:    rgba(108,99,255,0.18);
-    }
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 
-    html { scroll-behavior: smooth; }
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+:root{
+  --bg1:#070A1A;
+  --bg2:#0B1B3A;
+  --glass:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.12);
+  --accent:#6C63FF;
+  --text:#f5f7ff;
+  --muted:#a8b0c5;
+}
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 5vw;
-      background: rgba(13,13,13,0.7);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-    }
+/* BACKGROUND GRADIENT */
+body{
+  font-family:Inter,sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+}
 
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.15rem;
-      letter-spacing: 0.04em;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--accent); }
+/* PARTICLES */
+canvas{
+  position:fixed;
+  top:0;left:0;
+  z-index:-1;
+  opacity:0.7;
+}
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-    nav ul a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      transition: color 0.2s;
-    }
-    nav ul a:hover { color: var(--text); }
+/* NAV */
+nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:16px 5vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  backdrop-filter:blur(14px);
+  background:rgba(10,15,35,0.4);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  z-index:100;
+}
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 0 5vw;
-      position: relative;
-      overflow: hidden;
-    }
+.logo{
+  font-family:Syne;
+  font-weight:800;
+}
+.logo span{color:var(--accent)}
 
-    /* Ambient grid background */
-    #hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:120px 5vw;
+}
 
-    /* Radial glow */
-    #hero::after {
-      content: '';
-      position: absolute;
-      top: 20%; left: 55%;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
+.card{
+  width:100%;
+  max-width:900px;
 
-    .hero-eyebrow {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.2s;
-    }
+  display:flex;
+  gap:25px;
+  flex-wrap:wrap;
 
-    .hero-photo {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 0 6px rgba(108,99,255,0.12);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.1s;
-    }
+  padding:40px;
+  border-radius:22px;
 
-    h1.glitch {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(3rem, 8vw, 7rem);
-      line-height: 1;
-      letter-spacing: -0.02em;
-      position: relative;
-      display: inline-block;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.35s;
-    }
+  background:var(--glass);
+  border:1px solid var(--border);
 
-    /* Glitch effect on hover */
-    h1.glitch:hover::before,
-    h1.glitch:hover::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-    }
-    h1.glitch:hover::before {
-      color: #ff4d4d;
-      animation: glitch-1 0.3s infinite;
-      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
-    }
-    h1.glitch:hover::after {
-      color: var(--accent);
-      animation: glitch-2 0.3s infinite;
-      clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
-    }
+  backdrop-filter:blur(18px);
 
-    @keyframes glitch-1 {
-      0%   { transform: translateX(-3px); }
-      50%  { transform: translateX(3px); }
-      100% { transform: translateX(-3px); }
-    }
-    @keyframes glitch-2 {
-      0%   { transform: translateX(3px); }
-      50%  { transform: translateX(-3px); }
-      100% { transform: translateX(3px); }
-    }
+  box-shadow:0 25px 70px rgba(0,0,0,0.4);
 
-    .hero-sub {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      color: var(--muted);
-      font-weight: 300;
-      margin-top: 1.2rem;
-      max-width: 480px;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.55s;
-    }
+  transform-style:preserve-3d;
 
-    .hero-cta {
-      margin-top: 2.5rem;
-      display: flex;
-      gap: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.75s;
-    }
+  opacity:0;
+  transform:translateY(30px);
+  transition:0.8s ease;
+}
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.75rem;
-      border-radius: 6px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.875rem;
-      font-weight: 500;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border: 1.5px solid var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent2);
-      border-color: var(--accent2);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(108,99,255,0.35);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1.5px solid rgba(240,237,232,0.2);
-    }
-    .btn-outline:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
+.card.show{
+  opacity:1;
+  transform:translateY(0);
+}
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+.card:hover{
+  transform:perspective(1000px) rotateX(4deg) rotateY(-6deg) scale(1.02);
+}
 
-    /* ── SECTION SHARED ── */
-    section { padding: 6rem 5vw; }
+/* PROFILE */
+img.profile{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  border:3px solid var(--accent);
+  object-fit:cover;
+  box-shadow:0 0 25px rgba(108,99,255,0.25);
+}
 
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
+h1{
+  font-family:Syne;
+  font-size:2.3rem;
+}
 
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.75rem, 4vw, 2.75rem);
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
+.role{
+  color:var(--accent);
+  font-weight:600;
+  margin-top:5px;
+}
 
-    .section-desc {
-      color: var(--muted);
-      max-width: 520px;
-      font-size: 1rem;
-      margin-bottom: 3rem;
-    }
+.bio{
+  color:var(--muted);
+  margin-top:10px;
+  max-width:520px;
+  line-height:1.6;
+}
 
-    /* ── SKILLS ── */
-    #skills { background: var(--surface); }
+/* BUTTONS */
+.btns{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
 
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.25rem;
-    }
+.btn{
+  padding:10px 14px;
+  border-radius:10px;
+  text-decoration:none;
+  font-size:0.9rem;
+  transition:0.3s;
+}
 
-    .skill-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.5rem;
-      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-    }
-    .skill-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(108,99,255,0.15);
-    }
+.primary{
+  background:var(--accent);
+  color:white;
+}
+.primary:hover{transform:translateY(-3px)}
 
-    .skill-icon {
-      font-size: 1.75rem;
-      margin-bottom: 0.85rem;
-    }
+.outline{
+  border:1px solid var(--border);
+  color:var(--text);
+  background:rgba(255,255,255,0.02);
+}
+.outline:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  transform:translateY(-3px);
+}
 
-    .skill-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      margin-bottom: 0.4rem;
-    }
+/* SECTIONS */
+section{
+  padding:70px 5vw;
+}
 
-    .skill-desc {
-      color: var(--muted);
-      font-size: 0.85rem;
-      line-height: 1.55;
-    }
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin-top:25px;
+}
 
-    /* Skill bar */
-    .skill-bar {
-      margin-top: 1rem;
-      height: 3px;
-      background: rgba(108,99,255,0.15);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .skill-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 99px;
-      width: 0;
-      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+.box{
+  background:var(--glass);
+  border:1px solid var(--border);
+  padding:20px;
+  border-radius:16px;
+  backdrop-filter:blur(14px);
 
-    /* ── PORTFOLIO ── */
-    #portfolio { background: var(--bg); }
+  opacity:0;
+  transform:translateY(25px);
+  transition:0.7s ease;
+}
 
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
+.box.show{
+  opacity:1;
+  transform:translateY(0);
+}
 
-    .project-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-    }
-    .project-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 48px rgba(108,99,255,0.18);
-      border-color: var(--accent);
-    }
+/* PROJECTS */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
 
-    .project-thumb {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: linear-gradient(135deg, #1a1a3e, #2a1a4e);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .project-thumb::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(13,13,13,0.6));
-    }
+.project{
+  height:170px;
+  border-radius:16px;
 
-    .project-body {
-      padding: 1.25rem 1.5rem 1.5rem;
-    }
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-    .project-tag {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: rgba(108,99,255,0.1);
-      border-radius: 4px;
-      padding: 0.2rem 0.6rem;
-      margin-bottom: 0.75rem;
-    }
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
 
-    .project-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
+  opacity:0;
+  transform:scale(0.9);
+  transition:0.7s ease;
+}
 
-    .project-desc {
-      color: var(--muted);
-      font-size: 0.875rem;
-      line-height: 1.6;
-    }
+.project.show{
+  opacity:1;
+  transform:scale(1);
+}
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 3rem 5vw;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1.5rem;
-    }
+.project span{
+  color:rgba(255,255,255,0.7);
+  font-size:0.95rem;
+  text-align:center;
+  padding:10px;
+}
 
-    .footer-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--text);
-    }
-    .footer-name span { color: var(--accent); }
+/* FLOAT */
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+  100%{transform:translateY(0)}
+}
 
-    .footer-copy {
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1rem;
-    }
-    .social-links a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px; height: 40px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: all 0.2s;
-    }
-    .social-links a:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(108,99,255,0.08);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      nav ul { gap: 1.2rem; }
-      .hero-cta { flex-direction: column; }
-      footer { flex-direction: column; text-align: center; }
-      .social-links { justify-content: center; }
-    }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+.card{
+  animation:float 6s ease-in-out infinite;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a class="nav-logo" href="#hero">Saad<span>.</span></a>
-    <ul>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#portfolio">Work</a></li>
-    </ul>
-  </nav>
+<canvas id="particles"></canvas>
 
-  <!-- HERO -->
-  <section id="hero">
-    <img class="hero-photo" src="https://sadmad.xyz/saad.jpg" alt="Saad Akram" />
-    <p class="hero-eyebrow">ICS Student &amp; Video Editor</p>
-    <h1 class="glitch" data-text="Saad Akram">Saad Akram</h1>
-    <p class="hero-sub">I craft videos that stop the scroll — cinematic cuts, sharp edits, stories people actually watch.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="#portfolio">View My Work</a>
-      <a class="btn btn-outline" href="#skills">My Skills</a>
-    </div>
-  </section>
+<nav>
+  <div class="logo">Saad<span>.</span></div>
+</nav>
 
-  <!-- SKILLS -->
-  <section id="skills">
-    <p class="section-label reveal">What I bring</p>
-    <h2 class="section-title reveal">Skills &amp; Expertise</h2>
-    <p class="section-desc reveal">From technical editing to creative storytelling — here's what I do best.</p>
+<section class="hero">
 
-    <div class="skills-grid">
+  <div class="card" id="hero">
 
-      <div class="skill-card reveal">
-        <div class="skill-icon">🎬</div>
-        <div class="skill-name">Video Editing</div>
-        <div class="skill-desc">Professional cuts, colour grading, pacing, and transitions that keep viewers hooked.</div>
-        <div class="skill-bar"><div class="skill-fill" data-width="92%"></div></div>
-      </div>
+    <img class="profile" src="https://sadmad.xyz/saad.jpg"/>
 
-      <div class="skill-card reveal">
-        <div class="skill-icon">✨</div>
-        <div class="skill-name">Motion Graphics</div>
-        <div class="skill-desc">Animated titles, lower-thirds, and visual effects that elevate every frame.</div>
-        <div class="skill-bar"><div class="skill-fill" data-width="80%"></div></div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-icon">🎙️</div>
-        <div class="skill-name">Audio Design</div>
-        <div class="skill-desc">Sound mixing, music sync, and dialogue clean-up for a polished final product.</div>
-        <div class="skill-bar"><div class="skill-fill" data-width="75%"></div></div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-icon">💻</div>
-        <div class="skill-name">ICS / Programming</div>
-        <div class="skill-desc">Problem-solving mindset from studying Computer Science — logic meets creativity.</div>
-        <div class="skill-bar"><div class="skill-fill" data-width="70%"></div></div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-icon">📱</div>
-        <div class="skill-name">Social Media Content</div>
-        <div class="skill-desc">Short-form videos optimised for YouTube, Instagram Reels, and TikTok algorithms.</div>
-        <div class="skill-bar"><div class="skill-fill" data-width="88%"></div></div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-icon">🎨</div>
-        <div class="skill-name">Colour Grading</div>
-        <div class="skill-desc">Cinematic LUTs and manual colour work that give projects a distinct visual identity.</div>
-        <div class="skill-bar"><div class="skill-fill" data-width="82%"></div></div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- PORTFOLIO -->
-  <section id="portfolio">
-    <p class="section-label reveal">Recent work</p>
-    <h2 class="section-title reveal">My Portfolio</h2>
-    <p class="section-desc reveal">A selection of videos and projects I've worked on. Add your real projects here!</p>
-
-    <div class="portfolio-grid">
-
-      <div class="project-card reveal">
-        <div class="project-thumb">🎥</div>
-        <div class="project-body">
-          <span class="project-tag">Short Film</span>
-          <div class="project-title">Project Title One</div>
-          <div class="project-desc">Brief description of what this video was about, the style, client, or story it told.</div>
-        </div>
-      </div>
-
-      <div class="project-card reveal">
-        <div class="project-thumb">📸</div>
-        <div class="project-body">
-          <span class="project-tag">YouTube Edit</span>
-          <div class="project-title">Project Title Two</div>
-          <div class="project-desc">Brief description of what this video was about, the style, client, or story it told.</div>
-        </div>
-      </div>
-
-      <div class="project-card reveal">
-        <div class="project-thumb">🎞️</div>
-        <div class="project-body">
-          <span class="project-tag">Social Media</span>
-          <div class="project-title">Project Title Three</div>
-          <div class="project-desc">Brief description of what this video was about, the style, client, or story it told.</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
     <div>
-      <div class="footer-name">Saad<span>.</span></div>
-      <div class="footer-copy">© 2026 Saad Akram · sadmad.xyz</div>
+      <h1>Saad Akram</h1>
+      <div class="role">ICS Student • Video Editor</div>
+
+      <div class="bio">
+        A passionate 2nd-year ICS student focused on cinematic video editing, storytelling, and modern digital content creation.
+      </div>
+
+      <div class="btns">
+        <a class="btn primary" href="https://wa.me/923450095775" target="_blank">WhatsApp</a>
+        <a class="btn outline" href="mailto:sadmad.xyz@gmail.com">Email</a>
+      </div>
     </div>
-    <div class="social-links">
-      <!-- Replace # with your real links -->
-      <a href="#" title="YouTube" aria-label="YouTube">▶</a>
-      <a href="#" title="Instagram" aria-label="Instagram">📷</a>
-      <a href="#" title="LinkedIn" aria-label="LinkedIn">in</a>
-    </div>
-  </footer>
 
-  <script>
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 80);
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
+  </div>
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</section>
 
-    // Animate skill bars when visible
-    const barObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.skill-fill').forEach(fill => {
-            fill.style.width = fill.dataset.width;
-          });
-          barObserver.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.3 });
+<section>
+  <h2>Skills</h2>
 
-    document.querySelectorAll('.skills-grid').forEach(el => barObserver.observe(el));
-  </script>
+  <div class="grid">
+    <div class="box">Video Editing</div>
+    <div class="box">Motion Graphics</div>
+    <div class="box">Color Grading</div>
+    <div class="box">Content Creation</div>
+  </div>
+</section>
+
+<section>
+  <h2>Project Gallery</h2>
+
+  <div class="gallery">
+    <div class="project"><span>🚀 Something new is coming soon</span></div>
+    <div class="project"><span>🚀 Something new is coming soon</span></div>
+    <div class="project"><span>🚀 Something new is coming soon</span></div>
+  </div>
+</section>
+
+<script>
+/* PARTICLES (BLUE SOFT) */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let dots = [];
+
+for(let i=0;i<60;i++){
+  dots.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*2,
+    dx:(Math.random()-0.5)*0.4,
+    dy:(Math.random()-0.5)*0.4
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  for(let d of dots){
+    ctx.beginPath();
+    ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+    ctx.fillStyle="rgba(108,150,255,0.5)";
+    ctx.fill();
+
+    d.x += d.dx;
+    d.y += d.dy;
+
+    if(d.x<0||d.x>canvas.width) d.dx*=-1;
+    if(d.y<0||d.y>canvas.height) d.dy*=-1;
+  }
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* SCROLL ANIMATION */
+const items = document.querySelectorAll(".box, .project, .card");
+
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add("show");
+    }
+  });
+},{threshold:0.15});
+
+items.forEach(i=>obs.observe(i));
+
+addEventListener("resize",()=>{
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+});
+</script>
 
 </body>
 </html>
