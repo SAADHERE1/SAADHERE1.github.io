@@ -11,51 +11,101 @@
 *{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  --bg1:#070A1A;
-  --bg2:#0B1B3A;
-  --glass:rgba(255,255,255,0.06);
-  --border:rgba(255,255,255,0.12);
+  --bg1:#060814;
+  --bg2:#0B1C3A;
   --accent:#6C63FF;
-  --text:#f5f7ff;
-  --muted:#a8b0c5;
+  --text:#F5F7FF;
+  --muted:#AAB3CC;
 }
 
-/* BACKGROUND GRADIENT */
+/* BASE */
 body{
   font-family:Inter,sans-serif;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
   color:var(--text);
   overflow-x:hidden;
-  background: linear-gradient(135deg, var(--bg1), var(--bg2));
 }
 
-/* PARTICLES */
+/* LOADER */
+.loader{
+  position:fixed;
+  inset:0;
+  background:#050713;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:9999;
+  transition:0.8s ease;
+}
+
+.loader.hidden{
+  opacity:0;
+  pointer-events:none;
+}
+
+.loader h1{
+  font-family:Syne;
+  letter-spacing:2px;
+}
+
+.bar{
+  width:180px;
+  height:2px;
+  background:rgba(255,255,255,0.1);
+  margin-top:15px;
+  overflow:hidden;
+}
+
+.bar::after{
+  content:"";
+  display:block;
+  width:40%;
+  height:100%;
+  background:var(--accent);
+  animation:load 1.2s infinite ease-in-out;
+}
+
+@keyframes load{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(300%)}
+}
+
+/* BACKGROUND */
 canvas{
   position:fixed;
-  top:0;left:0;
-  z-index:-1;
-  opacity:0.7;
+  inset:0;
+  z-index:-2;
+  opacity:0.75;
 }
 
-/* NAV */
-nav{
+/* TOP BAR */
+.top{
   position:fixed;
-  top:0;
-  width:100%;
-  padding:16px 5vw;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  backdrop-filter:blur(14px);
-  background:rgba(10,15,35,0.4);
-  border-bottom:1px solid rgba(255,255,255,0.06);
+  top:15px;
+  left:15px;
   z-index:100;
+  padding:10px 12px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  border-radius:10px;
+  font-size:12px;
+  color:var(--muted);
 }
 
-.logo{
-  font-family:Syne;
-  font-weight:800;
+/* MUSIC */
+.music{
+  position:fixed;
+  bottom:15px;
+  right:15px;
+  z-index:100;
+  padding:10px 12px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  cursor:pointer;
 }
-.logo span{color:var(--accent)}
 
 /* HERO */
 .hero{
@@ -63,68 +113,39 @@ nav{
   display:flex;
   align-items:center;
   justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  transform-style:preserve-3d;
   padding:120px 5vw;
 }
 
-.card{
-  width:100%;
-  max-width:900px;
-
-  display:flex;
-  gap:25px;
-  flex-wrap:wrap;
-
-  padding:40px;
-  border-radius:22px;
-
-  background:var(--glass);
-  border:1px solid var(--border);
-
-  backdrop-filter:blur(18px);
-
-  box-shadow:0 25px 70px rgba(0,0,0,0.4);
-
-  transform-style:preserve-3d;
-
-  opacity:0;
-  transform:translateY(30px);
-  transition:0.8s ease;
-}
-
-.card.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-.card:hover{
-  transform:perspective(1000px) rotateX(4deg) rotateY(-6deg) scale(1.02);
-}
-
 /* PROFILE */
-img.profile{
-  width:140px;
-  height:140px;
+.avatar{
+  width:150px;
+  height:150px;
   border-radius:50%;
   border:3px solid var(--accent);
+  box-shadow:0 0 30px rgba(108,99,255,0.4);
   object-fit:cover;
-  box-shadow:0 0 25px rgba(108,99,255,0.25);
+  transition:0.2s;
 }
 
 h1{
   font-family:Syne;
-  font-size:2.3rem;
+  font-size:2.6rem;
+  margin-top:15px;
 }
 
 .role{
   color:var(--accent);
-  font-weight:600;
   margin-top:5px;
+  font-weight:600;
 }
 
 .bio{
-  color:var(--muted);
+  max-width:600px;
   margin-top:10px;
-  max-width:520px;
+  color:var(--muted);
   line-height:1.6;
 }
 
@@ -133,7 +154,6 @@ h1{
   margin-top:15px;
   display:flex;
   gap:10px;
-  flex-wrap:wrap;
 }
 
 .btn{
@@ -141,214 +161,219 @@ h1{
   border-radius:10px;
   text-decoration:none;
   font-size:0.9rem;
-  transition:0.3s;
 }
 
-.primary{
-  background:var(--accent);
-  color:white;
-}
-.primary:hover{transform:translateY(-3px)}
-
-.outline{
-  border:1px solid var(--border);
-  color:var(--text);
-  background:rgba(255,255,255,0.02);
-}
-.outline:hover{
-  border-color:var(--accent);
-  color:var(--accent);
-  transform:translateY(-3px);
-}
+.primary{background:var(--accent);color:white}
+.outline{border:1px solid rgba(255,255,255,0.2);color:white}
 
 /* SECTIONS */
 section{
-  padding:70px 5vw;
+  padding:80px 5vw;
 }
 
-/* GRID */
+/* CARDS */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
-  margin-top:25px;
+  gap:15px;
 }
 
-.box{
-  background:var(--glass);
-  border:1px solid var(--border);
-  padding:20px;
-  border-radius:16px;
-  backdrop-filter:blur(14px);
+.card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:18px;
+  border-radius:14px;
+  backdrop-filter:blur(10px);
 
   opacity:0;
-  transform:translateY(25px);
-  transition:0.7s ease;
+  transform:translateY(30px);
+  transition:0.6s ease;
 }
 
-.box.show{
+.card.show{
   opacity:1;
   transform:translateY(0);
 }
 
 /* PROJECTS */
-.gallery{
+.projects{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:15px;
-  margin-top:20px;
 }
 
 .project{
-  height:170px;
-  border-radius:16px;
-
+  height:140px;
   display:flex;
   align-items:center;
   justify-content:center;
-
+  border-radius:14px;
+  border:1px dashed rgba(255,255,255,0.2);
+  color:var(--muted);
   background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.08);
 
   opacity:0;
   transform:scale(0.9);
-  transition:0.7s ease;
+  transition:0.6s ease;
 }
 
 .project.show{
   opacity:1;
   transform:scale(1);
 }
-
-.project span{
-  color:rgba(255,255,255,0.7);
-  font-size:0.95rem;
-  text-align:center;
-  padding:10px;
-}
-
-/* FLOAT */
-@keyframes float{
-  0%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-  100%{transform:translateY(0)}
-}
-
-.card{
-  animation:float 6s ease-in-out infinite;
-}
 </style>
 </head>
 
 <body>
 
-<canvas id="particles"></canvas>
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <h1>Saad Akram</h1>
+  <div class="bar"></div>
+</div>
 
-<nav>
-  <div class="logo">Saad<span>.</span></div>
-</nav>
+<div class="top">ICS Student • Video Editor</div>
+<div class="music" onclick="toggleMusic()">🔊</div>
 
-<section class="hero">
+<audio id="audio" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2023/03/15/audio_5d4b2a2c9d.mp3" type="audio/mp3">
+</audio>
 
-  <div class="card" id="hero">
+<canvas id="bg"></canvas>
 
-    <img class="profile" src="https://sadmad.xyz/saad.jpg"/>
+<!-- HERO -->
+<section class="hero" id="hero">
 
-    <div>
-      <h1>Saad Akram</h1>
-      <div class="role">ICS Student • Video Editor</div>
+  <img class="avatar" id="avatar" src="https://sadmad.xyz/saad.jpg"/>
 
-      <div class="bio">
-        A passionate 2nd-year ICS student focused on cinematic video editing, storytelling, and modern digital content creation.
-      </div>
+  <h1>Saad Akram</h1>
+  <div class="role">ICS Student • Video Editor</div>
 
-      <div class="btns">
-        <a class="btn primary" href="https://wa.me/923450095775" target="_blank">WhatsApp</a>
-        <a class="btn outline" href="mailto:sadmad.xyz@gmail.com">Email</a>
-      </div>
-    </div>
+  <div class="bio">
+    Cinematic editor focused on storytelling, AI tools, motion graphics and modern digital content creation.
+  </div>
 
+  <div class="btns">
+    <a class="btn primary" href="https://wa.me/923450095775">WhatsApp</a>
+    <a class="btn outline" href="mailto:sadmad.xyz@gmail.com">Email</a>
   </div>
 
 </section>
 
+<!-- SKILLS -->
 <section>
-  <h2>Skills</h2>
+<h2>Skills</h2>
 
-  <div class="grid">
-    <div class="box">Video Editing</div>
-    <div class="box">Motion Graphics</div>
-    <div class="box">Color Grading</div>
-    <div class="box">Content Creation</div>
-  </div>
+<div class="grid">
+  <div class="card">Video Editing</div>
+  <div class="card">Motion Graphics</div>
+  <div class="card">AI Tools</div>
+  <div class="card">CapCut</div>
+  <div class="card">ChatGPT</div>
+  <div class="card">Game Dev</div>
+</div>
 </section>
 
+<!-- PROJECTS -->
 <section>
-  <h2>Project Gallery</h2>
+<h2>Project Gallery</h2>
 
-  <div class="gallery">
-    <div class="project"><span>🚀 Something new is coming soon</span></div>
-    <div class="project"><span>🚀 Something new is coming soon</span></div>
-    <div class="project"><span>🚀 Something new is coming soon</span></div>
-  </div>
+<div class="projects">
+  <div class="project">Coming Soon</div>
+  <div class="project">Blog Incoming</div>
+  <div class="project">New Edits Loading</div>
+</div>
 </section>
 
 <script>
-/* PARTICLES (BLUE SOFT) */
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+/* LOADER */
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    document.getElementById("loader").classList.add("hidden");
+  },1200);
+});
 
-let dots = [];
+/* MUSIC */
+function toggleMusic(){
+  const a=document.getElementById("audio");
+  a.paused?a.play():a.pause();
+}
 
-for(let i=0;i<60;i++){
-  dots.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*2,
-    dx:(Math.random()-0.5)*0.4,
-    dy:(Math.random()-0.5)*0.4
+/* PARTICLES (SUBTLE PROFESSIONAL STYLE) */
+const c=document.getElementById("bg");
+const x=c.getContext("2d");
+
+c.width=innerWidth;
+c.height=innerHeight;
+
+let p=[];
+for(let i=0;i<70;i++){
+  p.push({
+    x:Math.random()*c.width,
+    y:Math.random()*c.height,
+    vx:(Math.random()-0.5)*0.4,
+    vy:(Math.random()-0.5)*0.4
   });
 }
 
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+function draw(){
+  x.clearRect(0,0,c.width,c.height);
 
-  for(let d of dots){
-    ctx.beginPath();
-    ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-    ctx.fillStyle="rgba(108,150,255,0.5)";
-    ctx.fill();
+  for(let i of p){
+    i.x+=i.vx;
+    i.y+=i.vy;
 
-    d.x += d.dx;
-    d.y += d.dy;
+    if(i.x<0||i.x>c.width)i.vx*=-1;
+    if(i.y<0||i.y>c.height)i.vy*=-1;
 
-    if(d.x<0||d.x>canvas.width) d.dx*=-1;
-    if(d.y<0||d.y>canvas.height) d.dy*=-1;
+    x.beginPath();
+    x.arc(i.x,i.y,2,0,Math.PI*2);
+    x.fillStyle="rgba(108,150,255,0.7)";
+    x.fill();
+
+    for(let j of p){
+      let d=Math.hypot(i.x-j.x,i.y-j.y);
+      if(d<110){
+        x.beginPath();
+        x.strokeStyle="rgba(108,150,255,0.12)";
+        x.moveTo(i.x,i.y);
+        x.lineTo(j.x,j.y);
+        x.stroke();
+      }
+    }
   }
 
-  requestAnimationFrame(animate);
+  requestAnimationFrame(draw);
 }
-animate();
+draw();
 
-/* SCROLL ANIMATION */
-const items = document.querySelectorAll(".box, .project, .card");
+/* SCROLL REVEAL (FILM STYLE) */
+const items=document.querySelectorAll(".card,.project");
 
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add("show");
+const obs=new IntersectionObserver(e=>{
+  e.forEach(i=>{
+    if(i.isIntersecting){
+      i.target.classList.add("show");
     }
   });
-},{threshold:0.15});
+},{threshold:0.2});
 
 items.forEach(i=>obs.observe(i));
 
-addEventListener("resize",()=>{
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
+/* 3D AVATAR CONTROL */
+const avatar=document.getElementById("avatar");
+
+document.addEventListener("mousemove",(e)=>{
+  let x=(window.innerWidth/2-e.clientX)/30;
+  let y=(window.innerHeight/2-e.clientY)/30;
+  avatar.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;
+});
+
+/* RESIZE */
+window.addEventListener("resize",()=>{
+  c.width=innerWidth;
+  c.height=innerHeight;
 });
 </script>
 
