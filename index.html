@@ -5,377 +5,131 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Saad Akram</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-
-:root{
-  --bg1:#060814;
-  --bg2:#0B1C3A;
-  --accent:#6C63FF;
-  --text:#F5F7FF;
-  --muted:#AAB3CC;
-}
-
-/* BASE */
 body{
-  font-family:Inter,sans-serif;
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
-  color:var(--text);
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#060816,#0b1c3a);
+  color:white;
   overflow-x:hidden;
 }
 
-/* LOADER */
-.loader{
+/* SIMPLE FLOAT BACKGROUND */
+.bg{
   position:fixed;
-  inset:0;
-  background:#050713;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:9999;
-  transition:0.8s ease;
-}
-
-.loader.hidden{
-  opacity:0;
-  pointer-events:none;
-}
-
-.loader h1{
-  font-family:Syne;
-  letter-spacing:2px;
-}
-
-.bar{
-  width:180px;
-  height:2px;
-  background:rgba(255,255,255,0.1);
-  margin-top:15px;
-  overflow:hidden;
-}
-
-.bar::after{
-  content:"";
-  display:block;
-  width:40%;
+  width:100%;
   height:100%;
-  background:var(--accent);
-  animation:load 1.2s infinite ease-in-out;
+  top:0;left:0;
+  z-index:-1;
 }
 
-@keyframes load{
-  0%{transform:translateX(-100%)}
-  100%{transform:translateX(300%)}
+.circle{
+  position:absolute;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:0.3;
+  animation:move 10s infinite ease-in-out;
 }
 
-/* BACKGROUND */
-canvas{
-  position:fixed;
-  inset:0;
-  z-index:-2;
-  opacity:0.75;
-}
+.c1{background:#6C63FF;top:10%;left:20%;}
+.c2{background:#00c2ff;top:60%;left:70%;}
 
-/* TOP BAR */
-.top{
-  position:fixed;
-  top:15px;
-  left:15px;
-  z-index:100;
-  padding:10px 12px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  backdrop-filter:blur(12px);
-  border-radius:10px;
-  font-size:12px;
-  color:var(--muted);
-}
-
-/* MUSIC */
-.music{
-  position:fixed;
-  bottom:15px;
-  right:15px;
-  z-index:100;
-  padding:10px 12px;
-  border-radius:10px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  cursor:pointer;
+@keyframes move{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-40px)}
+  100%{transform:translateY(0)}
 }
 
 /* HERO */
 .hero{
-  min-height:100vh;
+  height:100vh;
   display:flex;
-  align-items:center;
-  justify-content:center;
   flex-direction:column;
+  justify-content:center;
+  align-items:center;
   text-align:center;
-  transform-style:preserve-3d;
-  padding:120px 5vw;
+  padding:20px;
 }
 
-/* PROFILE */
-.avatar{
-  width:150px;
-  height:150px;
+img{
+  width:140px;
+  height:140px;
   border-radius:50%;
-  border:3px solid var(--accent);
-  box-shadow:0 0 30px rgba(108,99,255,0.4);
+  border:3px solid #6C63FF;
   object-fit:cover;
-  transition:0.2s;
 }
 
-h1{
-  font-family:Syne;
-  font-size:2.6rem;
-  margin-top:15px;
-}
+h1{margin:10px 0;font-size:2rem;}
 
-.role{
-  color:var(--accent);
-  margin-top:5px;
-  font-weight:600;
-}
-
-.bio{
-  max-width:600px;
+.btn{
   margin-top:10px;
-  color:var(--muted);
-  line-height:1.6;
-}
-
-/* BUTTONS */
-.btns{
-  margin-top:15px;
   display:flex;
   gap:10px;
 }
 
-.btn{
-  padding:10px 14px;
-  border-radius:10px;
+a{
   text-decoration:none;
-  font-size:0.9rem;
+  padding:10px 14px;
+  border-radius:8px;
 }
 
-.primary{background:var(--accent);color:white}
-.outline{border:1px solid rgba(255,255,255,0.2);color:white}
+.whatsapp{background:#6C63FF;color:white;}
+.email{border:1px solid #fff;color:white;}
 
 /* SECTIONS */
 section{
-  padding:80px 5vw;
-}
-
-/* CARDS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
+  padding:50px 20px;
+  text-align:center;
 }
 
 .card{
   background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  padding:18px;
-  border-radius:14px;
-  backdrop-filter:blur(10px);
-
-  opacity:0;
-  transform:translateY(30px);
-  transition:0.6s ease;
+  margin:10px;
+  padding:15px;
+  border-radius:10px;
+  display:inline-block;
 }
 
-.card.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* PROJECTS */
-.projects{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:15px;
-}
-
-.project{
-  height:140px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:14px;
-  border:1px dashed rgba(255,255,255,0.2);
-  color:var(--muted);
-  background:rgba(255,255,255,0.03);
-
-  opacity:0;
-  transform:scale(0.9);
-  transition:0.6s ease;
-}
-
-.project.show{
-  opacity:1;
-  transform:scale(1);
-}
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
-<div class="loader" id="loader">
-  <h1>Saad Akram</h1>
-  <div class="bar"></div>
+<div class="bg">
+  <div class="circle c1"></div>
+  <div class="circle c2"></div>
 </div>
 
-<div class="top">ICS Student • Video Editor</div>
-<div class="music" onclick="toggleMusic()">🔊</div>
+<section class="hero">
 
-<audio id="audio" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2023/03/15/audio_5d4b2a2c9d.mp3" type="audio/mp3">
-</audio>
+<img src="https://sadmad.xyz/saad.jpg"/>
 
-<canvas id="bg"></canvas>
+<h1>Saad Akram</h1>
+<p>ICS Student • Video Editor</p>
 
-<!-- HERO -->
-<section class="hero" id="hero">
-
-  <img class="avatar" id="avatar" src="https://sadmad.xyz/saad.jpg"/>
-
-  <h1>Saad Akram</h1>
-  <div class="role">ICS Student • Video Editor</div>
-
-  <div class="bio">
-    Cinematic editor focused on storytelling, AI tools, motion graphics and modern digital content creation.
-  </div>
-
-  <div class="btns">
-    <a class="btn primary" href="https://wa.me/923450095775">WhatsApp</a>
-    <a class="btn outline" href="mailto:sadmad.xyz@gmail.com">Email</a>
-  </div>
+<div class="btn">
+<a class="whatsapp" href="https://wa.me/923450095775">WhatsApp</a>
+<a class="email" href="mailto:sadmad.xyz@gmail.com">Email</a>
+</div>
 
 </section>
 
-<!-- SKILLS -->
 <section>
 <h2>Skills</h2>
-
-<div class="grid">
-  <div class="card">Video Editing</div>
-  <div class="card">Motion Graphics</div>
-  <div class="card">AI Tools</div>
-  <div class="card">CapCut</div>
-  <div class="card">ChatGPT</div>
-  <div class="card">Game Dev</div>
-</div>
+<div class="card">Video Editing</div>
+<div class="card">AI Tools</div>
+<div class="card">CapCut</div>
+<div class="card">Game Dev</div>
 </section>
 
-<!-- PROJECTS -->
 <section>
-<h2>Project Gallery</h2>
-
-<div class="projects">
-  <div class="project">Coming Soon</div>
-  <div class="project">Blog Incoming</div>
-  <div class="project">New Edits Loading</div>
-</div>
+<h2>Projects</h2>
+<div class="card">Coming Soon</div>
+<div class="card">Blog Coming</div>
+<div class="card">New Work Loading</div>
 </section>
-
-<script>
-
-/* LOADER */
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    document.getElementById("loader").classList.add("hidden");
-  },1200);
-});
-
-/* MUSIC */
-function toggleMusic(){
-  const a=document.getElementById("audio");
-  a.paused?a.play():a.pause();
-}
-
-/* PARTICLES (SUBTLE PROFESSIONAL STYLE) */
-const c=document.getElementById("bg");
-const x=c.getContext("2d");
-
-c.width=innerWidth;
-c.height=innerHeight;
-
-let p=[];
-for(let i=0;i<70;i++){
-  p.push({
-    x:Math.random()*c.width,
-    y:Math.random()*c.height,
-    vx:(Math.random()-0.5)*0.4,
-    vy:(Math.random()-0.5)*0.4
-  });
-}
-
-function draw(){
-  x.clearRect(0,0,c.width,c.height);
-
-  for(let i of p){
-    i.x+=i.vx;
-    i.y+=i.vy;
-
-    if(i.x<0||i.x>c.width)i.vx*=-1;
-    if(i.y<0||i.y>c.height)i.vy*=-1;
-
-    x.beginPath();
-    x.arc(i.x,i.y,2,0,Math.PI*2);
-    x.fillStyle="rgba(108,150,255,0.7)";
-    x.fill();
-
-    for(let j of p){
-      let d=Math.hypot(i.x-j.x,i.y-j.y);
-      if(d<110){
-        x.beginPath();
-        x.strokeStyle="rgba(108,150,255,0.12)";
-        x.moveTo(i.x,i.y);
-        x.lineTo(j.x,j.y);
-        x.stroke();
-      }
-    }
-  }
-
-  requestAnimationFrame(draw);
-}
-draw();
-
-/* SCROLL REVEAL (FILM STYLE) */
-const items=document.querySelectorAll(".card,.project");
-
-const obs=new IntersectionObserver(e=>{
-  e.forEach(i=>{
-    if(i.isIntersecting){
-      i.target.classList.add("show");
-    }
-  });
-},{threshold:0.2});
-
-items.forEach(i=>obs.observe(i));
-
-/* 3D AVATAR CONTROL */
-const avatar=document.getElementById("avatar");
-
-document.addEventListener("mousemove",(e)=>{
-  let x=(window.innerWidth/2-e.clientX)/30;
-  let y=(window.innerHeight/2-e.clientY)/30;
-  avatar.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;
-});
-
-/* RESIZE */
-window.addEventListener("resize",()=>{
-  c.width=innerWidth;
-  c.height=innerHeight;
-});
-</script>
 
 </body>
 </html>
