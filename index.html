@@ -319,6 +319,7 @@ h2{
   h1{font-size:2rem}
 }
 </style>
+<link href="style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -416,6 +417,25 @@ h2{
     </div>
   </div>
 </section>
+<hr class="divider"/>
+<section class="comments-section">
+    <h3>💬 Comments</h3>
+
+    <div id="comments" class="comments-box">
+        <!-- Comments will appear here -->
+    </div>
+
+    <div class="comment-input">
+        <input
+            type="text"
+            id="commentbox"
+            placeholder="Write a comment..."
+        >
+        <button onclick="postComment()" id="mbtn">
+            Post
+        </button>
+    </div>
+</section>
 
 <hr class="divider"/>
 
@@ -429,13 +449,39 @@ h2{
       <a class="social-btn" href="https://wa.me/923450095775">💬 WhatsApp</a>
       <a class="social-btn" href="mailto:sadmad.xyz@gmail.com">✉️ Email</a>
       <a class="social-btn" href="https://tiktok.com/@podcastra">🎵 TikTok</a>
-      <a class="social-btn" href="https://youtube.com/@sadmad">▶️ YouTube</a>
     </div>
     <p class="footer-note">sadmad.xyz &nbsp;·&nbsp; © 2025 Saad Akram</p>
   </div>
 </section>
 
+<a href="#comments" style="display: block; font-size: 30px; text-decoration: none; background-color: #fff; position: fixed; right: 20px; top: 20px; border: 1px solid transparent; border-radius: 100%;">💬</a>
+
+
 <script>
+function loadComments(){
+  fetch("https://log.alimad.co/api/pull?channel=comments:saad").then(e=>e.json()).then(d=>{
+    const el = document.getElementById("comments");
+    el.innerHTML = "";
+    d.logs.forEach(c => {
+      el.innerHTML += `<p class="comment">${c.text}</p>`;
+    });
+    setTimeout(() => {
+      el.scrollTop = el.scrollHeight;
+    }, 100)
+  });  
+}
+
+  function postComment(){
+    const text = document.getElementById("commentbox");
+    text.disabled=true;
+    mbtn.disabled = true;
+    fetch("https://log.alimad.co/api/log?channel=comments:saad&text="+encodeURIComponent(text.value)).then(e=>{loadComments();text.disabled=false;text.value="";mbtn.disabled=false;
+    });
+  }
+
+loadComments();
+  setTimeout(loadComments, 60000);
+
 /* PARTICLES */
 const canvas=document.getElementById('bg');
 const ctx=canvas.getContext('2d');
